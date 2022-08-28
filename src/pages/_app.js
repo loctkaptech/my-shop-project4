@@ -7,6 +7,8 @@ import MainLayout from 'layouts/MainLayout';
 import { getColorPreference, setColorPreference } from 'themes/utils';
 
 import 'styles/globals.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 function MyApp({ Component, pageProps }) {
   const [mode, setMode] = useState('light');

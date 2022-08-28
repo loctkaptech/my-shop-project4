@@ -14,7 +14,26 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
           {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
         </IconButton>
       </Box>
-      <Box sx={{ flexGrow: 1 }}>{children}</Box>
+      <Box
+        sx={{
+          flexGrow: 1,
+          px: {
+            xs: 1,
+            sm: 2,
+            md: 3,
+            lg: 4,
+            xl: 0,
+          },
+          width: {
+            xl: '1440px',
+          },
+          mx: {
+            xl: 'auto',
+          },
+        }}
+      >
+        {children}
+      </Box>
       <Box>
         <footer>footer</footer>
       </Box>

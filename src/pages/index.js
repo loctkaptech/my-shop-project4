@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import HomeTemplate from 'templates/home';
 
 export default function Home() {
   return (
@@ -8,7 +9,9 @@ export default function Home() {
         <meta name='description' content='My shop' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main>Home</main>
+      <main>
+        <HomeTemplate />
+      </main>
     </div>
   );
 }
