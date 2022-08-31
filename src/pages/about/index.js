@@ -1,8 +1,11 @@
 import React from 'react'
+import AboutTemplate from 'templates/about';
 
 const About = () => {
   return (
-    <div>About</div>
+    <div>
+      <AboutTemplate />
+    </div>
   )
 }
 
