@@ -35,6 +35,14 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
       name: 'About',
       href: '/about',
     },
+    {
+      name: 'Login',
+      href: '/login',
+    },
+    {
+      name: 'Signup',
+      href: '/signup',
+    },
   ];
   const settings = ['Profile'];
   const handleOpenNavMenu = (event) => {
