@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   Card,
@@ -7,9 +8,10 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import React from 'react';
+import { useRouter } from 'next/router';
 
 const ProductCard = ({ item }) => {
+  const router = useRouter();
   return (
     <Box
       key={item}
@@ -18,10 +20,11 @@ const ProductCard = ({ item }) => {
           xs: 1,
           md: 2,
         },
+        py: 1
       }}
     >
       <Card>
-        <CardActionArea>
+        <CardActionArea onClick={() => router.push(`/products/details/${item}`)}>
           <CardMedia sx={{ height: '200px' }}>
             <div
               style={{
