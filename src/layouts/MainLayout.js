@@ -1,11 +1,9 @@
-import React from 'react';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import {
   AppBar,
   Avatar,
   Box,
-  Button,
   IconButton,
   Menu,
   MenuItem,
@@ -13,14 +11,15 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import React from 'react';
 
-import Link from 'components/Link';
-import { useRouter } from 'next/router';
-import AdbIcon from '@mui/icons-material/Adb';
-import { Container } from '@mui/system';
+import CopyrightIcon from '@mui/icons-material/Copyright';
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import CopyrightIcon from '@mui/icons-material/Copyright';
+import { Container } from '@mui/system';
+import { useRouter } from 'next/router';
+
+import Link from 'components/Link';
 
 const MainLayout = ({ children, toggleTheme, mode }) => {
   const router = useRouter();
