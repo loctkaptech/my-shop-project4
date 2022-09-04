@@ -31,6 +31,10 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
       href: '/',
     },
     {
+      name: 'Products',
+      href: '/products',
+    },
+    {
       name: 'About',
       href: '/about',
     },
@@ -115,7 +119,6 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
               >
                 {pages.map((page) => (
                   <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                    {/* <Typography textAlign='center'>{page}</Typography> */}
                     <Link href={page.href}>{page.name}</Link>
                   </MenuItem>
                 ))}
