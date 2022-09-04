@@ -10,21 +10,25 @@ import {
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-const ProductCard = ({ item }) => {
+const ProductCard = ({ item, removeSpacing = false }) => {
   const router = useRouter();
   return (
     <Box
       key={item}
       sx={{
-        px: {
-          xs: 1,
-          md: 2,
-        },
-        py: 1
+        px: removeSpacing
+          ? 0
+          : {
+              xs: 1,
+              md: 2,
+            },
+        py: removeSpacing ? 0 : 1,
       }}
     >
       <Card>
-        <CardActionArea onClick={() => router.push(`/products/details/${item}`)}>
+        <CardActionArea
+          onClick={() => router.push(`/products/details/${item}`)}
+        >
           <CardMedia sx={{ height: '200px' }}>
             <div
               style={{
