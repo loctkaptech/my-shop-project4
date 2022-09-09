@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
 import AddIcon from '@mui/icons-material/Add';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -16,11 +14,14 @@ import {
   Tabs,
   Typography,
 } from '@mui/material';
+import Image from 'next/image';
+import React, { useState } from 'react';
 
 import PageSectionContent from 'components/PageSectionContent';
 import PageSectionTitle from 'components/PageSectionTitle';
 import ProductCard from 'components/ProductCard';
 import SliderReactSlick from 'components/SliderReactSlick';
+import { useRouter } from 'next/router';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,6 +53,7 @@ function a11yProps(index) {
 const ProductDetailsTemplate = () => {
   const [amount, setAmount] = useState(1);
   const [value, setValue] = React.useState(0);
+  const router = useRouter();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -65,6 +67,20 @@ const ProductDetailsTemplate = () => {
       return;
     }
     setAmount((preAmount) => preAmount - 1);
+  };
+
+  const handleClickPlaceOrder = () => {
+    const products = [
+      { id: 'asd1', amount: 3 },
+      { id: 'ads2', amount: 1 },
+    ];
+    const queryStr = products
+      .map(
+        (prd, idx) =>
+          `${prd.id}=${prd.amount}${idx === products.length - 1 ? '' : '&'}`
+      )
+      .join('');
+    router.push(`/checkout?${queryStr}`);
   };
 
   return (
@@ -116,7 +132,12 @@ const ProductDetailsTemplate = () => {
             <Button size='large' variant='contained'>
               Add to cart
             </Button>
-            <Button sx={{ ml: 3 }} size='large' variant='contained'>
+            <Button
+              onClick={handleClickPlaceOrder}
+              sx={{ ml: 3 }}
+              size='large'
+              variant='contained'
+            >
               Place order
             </Button>
           </Box>
