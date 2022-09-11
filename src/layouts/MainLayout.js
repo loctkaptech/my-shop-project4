@@ -10,16 +10,23 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  Grid,Container
 } from '@mui/material';
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import React from 'react';
 
 import CopyrightIcon from '@mui/icons-material/Copyright';
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import { Container } from '@mui/system';
 import { useRouter } from 'next/router';
 
+
 import Link from 'components/Link';
+import { Stack } from '@mui/system';
+import { FacebookOutlined } from '@mui/icons-material';
 
 const MainLayout = ({ children, toggleTheme, mode }) => {
   const router = useRouter();
@@ -223,17 +230,57 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
       </Box>
       <Box sx={{ p: 2 }}>
         <footer>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <CopyrightIcon /> <Typography>My Shop</Typography>
+          <Box px = {{xs:3,sm:10}} py={{xs:5,sm:10}} bgcolor="text.secondary" color = "white">
+            <Container maxWidth = "lg">
+            <Grid container spacing = {5}>
+                <Grid item xs={12} sm = {4}>
+                  <Box borderBottom={1} >My Shop</Box>
+                  <Box mt={1}><Link href="/" color="inherit">
+                  Products
+
+                  </Link></Box>
+                  <Box mt={1}><Link href="/" color = "inherit">
+                    Login
+                  </Link></Box>
+                  <Box mt={1}><Link href="/" color = "inherit">
+                    Signup
+                  </Link></Box>
+                </Grid>
+                <Grid item xs={12} sm = {4}>
+                  <Box borderBottom={1} >Help</Box>
+                  < Box mt={1}><Link href="/" color = "inherit">
+                  Products
+
+                  </Link></Box>
+                  < Box mt={1}><Link href="/" color = "inherit">
+                    About Us
+                  </Link></Box>
+                  < Box mt={1}><Link href="/" color = "inherit">Product Details</Link></Box>
+                </Grid>
+                <Grid item xs={12} sm = {4}>
+                  <Box borderBottom={1} >Social Networking</Box>
+                  
+                  <Stack direction="row" spacing={1}mt ={1}>
+<Box><Typography color="inherit">Facebook</Typography></Box>
+                    <FacebookOutlinedIcon color="inherit">Facebook</FacebookOutlinedIcon>
+                  </Stack>
+                  <Stack direction="row" spacing={1} mt={1}>
+                  <Box><Typography color="inherit">Instagram</Typography></Box>
+                    <InstagramIcon color="inherit">Instagram</InstagramIcon>
+                  </Stack>
+                 
+                  <Stack direction="row" spacing={1} mt ={1}>
+                  <Box><Typography color="inherit">LinkedinIn</Typography></Box>
+
+                    <LinkedInIcon color="inherit">LinkedInIcon</LinkedInIcon>
+                  </Stack>
+                </Grid>
+                </Grid>
+            </Container>
           </Box>
         </footer>
       </Box>
+      
     </Box>
   );
 };
