@@ -174,7 +174,7 @@ const CheckoutTemplate = () => {
                 lineHeight: '1.5rem',
               }}
             >
-              Check out
+              Order
             </Button>
           </Box>
         </Grid>

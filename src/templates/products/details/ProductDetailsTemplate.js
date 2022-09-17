@@ -15,13 +15,15 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import PageSectionContent from 'components/PageSectionContent';
 import PageSectionTitle from 'components/PageSectionTitle';
 import ProductCard from 'components/ProductCard';
 import SliderReactSlick from 'components/SliderReactSlick';
 import { useRouter } from 'next/router';
+import { LayoutContext } from 'layouts/MainLayout';
+import { useSnackbar } from 'notistack';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,6 +56,16 @@ const ProductDetailsTemplate = () => {
   const [amount, setAmount] = useState(1);
   const [value, setValue] = React.useState(0);
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
+  const layoutContext = useContext(LayoutContext);
+
+  const [showSrcImageIdx, setShowSrcImageIdx] = useState(0);
+
+  const images = [
+    'https://picsum.photos/600/600',
+    'https://picsum.photos/800/800',
+    'https://picsum.photos/700/700',
+  ];
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -83,19 +95,92 @@ const ProductDetailsTemplate = () => {
     router.push(`/checkout?${queryStr}`);
   };
 
+  const handleClickThumbnailImg = (idx) => {
+    setShowSrcImageIdx(idx);
+  };
+
+  const handleAddToCart = () => {
+    const newItem = { id: 'item id 123', amount: 2 };
+    const itemsInCart = localStorage.getItem('items');
+    if (itemsInCart) {
+      const items = JSON.parse(itemsInCart);
+      console.log('items', items);
+      if (items.find((it) => it.id === newItem.id)) {
+        enqueueSnackbar('item exists', { variant: 'error' });
+      } else {
+        const newItems = [...items, newItem];
+        localStorage.setItem('items', JSON.stringify(newItems));
+        layoutContext.setItemsInCart(newItems);
+        enqueueSnackbar('item added', { variant: 'success' });
+      }
+    } else {
+      localStorage.setItem('items', JSON.stringify([newItem]));
+      layoutContext.setItemsInCart([newItem]);
+      enqueueSnackbar('item added', { variant: 'success' });
+    }
+  };
+
   return (
     <Box>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <Box sx={{ position: 'relative', aspectRatio: '1/1' }}>
             <Image
-              src='https://picsum.photos/600/600'
+              src={images[showSrcImageIdx]}
               layout='fill'
               alt='test'
               objectFit='contain'
             />
           </Box>
+          <Box sx={{ mt: 2 }}>
+            <Stack direction='row' justifyContent='center' spacing={2}>
+              {images.map((img, idx) => {
+                return (
+                  <Box
+                    sx={{
+                      background: idx === showSrcImageIdx ? '#90caf9' : 'none',
+                      p: '2px',
+                    }}
+                    key={idx}
+                  >
+                    <Box
+                      onClick={() => handleClickThumbnailImg(idx)}
+                      width={100}
+                      height={100}
+                      sx={{
+                        overflow: 'hidden',
+                        transition: 'all 0.3s ease-out',
+                        cursor: 'pointer',
+                        '&:hover': {
+                          '& > div': {
+                            transition: 'all 0.3s ease-out',
+                            transform: 'scale(1.2)',
+                          },
+                        },
+                        '&:not(:hover)': {
+                          '& > div': {
+                            transition: 'all 0.3s ease-out',
+                            transform: 'scale(1)',
+                          },
+                        },
+                      }}
+                    >
+                      <Box sx={{ position: 'relative', aspectRatio: '1/1' }}>
+                        <Image
+                          src={img}
+                          layout='fill'
+                          alt='test'
+                          objectFit='cover'
+                        />
+                      </Box>
+                    </Box>
+                  </Box>
+                );
+              })}
+            </Stack>
+          </Box>
         </Grid>
+
         <Grid item xs={12} md={6}>
           <Typography variant='h3' gutterBottom>
             ANTONI FERNANDO DRIVER SHOES AF.4020 MEN SHOES
@@ -129,7 +214,7 @@ const ProductDetailsTemplate = () => {
             </IconButton>
           </Stack>
           <Box sx={{ mt: 3 }}>
-            <Button size='large' variant='contained'>
+            <Button onClick={handleAddToCart} size='large' variant='contained'>
               Add to cart
             </Button>
             <Button
