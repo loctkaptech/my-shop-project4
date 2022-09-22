@@ -3,16 +3,33 @@ import Image from 'next/image';
 import React from 'react';
 import CategoryImage1 from 'assets/images/180-720x400.jpg';
 
-const CategoryCard = () => {
+const CategoryCard = ({ category }) => {
+  const { id, name, thumbnail } = category;
+
   return (
-    <>
-      <CardActionArea sx={{ borderRadius: '7px' }}>
-        <Box>
+    <Box
+      sx={{
+        aspectRatio: '9/6',
+        width: '100%',
+        height: 'auto',
+        position: 'relative',
+      }}
+    >
+      <CardActionArea
+        sx={{
+          borderRadius: '7px',
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+        }}
+      >
+        <Box sx={{ height: '100%' }}>
           <Image
             style={{ borderRadius: '7px' }}
-            src={CategoryImage1}
-            layout='responsive'
-            alt='random image'
+            src={thumbnail}
+            layout='fill'
+            alt={name}
+            objectFit='cover'
           />
         </Box>
         <Box
@@ -25,23 +42,23 @@ const CategoryCard = () => {
             padding: '12px 25px',
           }}
         >
-          <Typography
+          {/* <Typography
             variant='caption'
             color='white'
             sx={{ textTransform: 'uppercase', whiteSpace: 'nowrap' }}
           >
             Nike
-          </Typography>
+          </Typography> */}
           <Typography
             variant='h4'
             color='white'
             sx={{ textTransform: 'uppercase', whiteSpace: 'nowrap' }}
           >
-            Category 1
+            {name}
           </Typography>
         </Box>
       </CardActionArea>
-    </>
+    </Box>
   );
 };
 
