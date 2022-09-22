@@ -1,13 +1,16 @@
-import Image from 'next/image';
 import { Box, Grid } from '@mui/material';
+import BgImage from 'assets/images/1059-1440x600.jpg';
 import CategoryCard from 'components/CategoryCard';
 import PageSectionContent from 'components/PageSectionContent';
 import PageSectionTitle from 'components/PageSectionTitle';
 import ProductCard from 'components/ProductCard';
 import SliderReactSlick from 'components/SliderReactSlick';
-import BgImage from 'assets/images/1059-1440x600.jpg';
+import Image from 'next/image';
 
-const HomeTemplate = () => {
+const HomeTemplate = ({ latestProducts = [], categories = [] }) => {
+  const displayedCategories =
+    categories.length >= 5 ? categories : categories.slice(0, 5);
+
   return (
     <div>
       <Box sx={{ mt: 4 }}>
@@ -29,13 +32,13 @@ const HomeTemplate = () => {
           </SliderReactSlick>
         </PageSectionContent>
       </Box>
-      
+
       <Box sx={{ mt: 4 }}>
         <PageSectionTitle title='Latest products' />
         <PageSectionContent>
           <SliderReactSlick>
-            {[1, 2, 3, 4, 5, 6].map((item) => (
-              <ProductCard key={item} item={item} />
+            {latestProducts.map((item) => (
+              <ProductCard key={item.id} item={item} />
             ))}
           </SliderReactSlick>
         </PageSectionContent>
@@ -45,7 +48,7 @@ const HomeTemplate = () => {
         <PageSectionTitle title='Featured products' />
         <PageSectionContent>
           <SliderReactSlick>
-            {[1, 2, 3, 4, 5, 6].map((item) => (
+            {latestProducts.map((item) => (
               <ProductCard key={item} item={item} />
             ))}
           </SliderReactSlick>
@@ -56,21 +59,20 @@ const HomeTemplate = () => {
         <PageSectionTitle title='Hot categories' />
         <PageSectionContent>
           <Grid container spacing={4}>
-            <Grid item xs={12} md={6} sx={{ position: 'relative' }}>
-              <CategoryCard />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CategoryCard />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <CategoryCard />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <CategoryCard />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <CategoryCard />
-            </Grid>
+            {displayedCategories.map((category, idx) => {
+              if (idx < 2) {
+                return (
+                  <Grid key={category.id} item xs={12} md={6}>
+                    <CategoryCard category={category} />
+                  </Grid>
+                );
+              }
+              return (
+                <Grid key={category.id} item xs={12} md={4}>
+                  <CategoryCard />
+                </Grid>
+              );
+            })}
           </Grid>
         </PageSectionContent>
       </Box>
@@ -79,7 +81,7 @@ const HomeTemplate = () => {
         <PageSectionTitle title='On sale' />
         <PageSectionContent>
           <SliderReactSlick>
-            {[1, 2, 3, 4, 5, 6].map((item) => (
+            {latestProducts.map((item) => (
               <ProductCard key={item} item={item} />
             ))}
           </SliderReactSlick>

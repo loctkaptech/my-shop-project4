@@ -7,7 +7,7 @@ function ArrowNext(props) {
   const { onClick } = props;
   return (
     <IconButton
-      size="small"
+      size='small'
       onClick={onClick}
       sx={{
         position: 'absolute',
@@ -15,12 +15,12 @@ function ArrowNext(props) {
         right: {
           xs: '-25px',
           md: '-40px',
-          lg: '-50px'
+          lg: '-50px',
         },
-        transform: 'translateY(-50%)'
+        transform: 'translateY(-50%)',
       }}
     >
-      <ArrowForwardIosIcon fontSize='12px'/>
+      <ArrowForwardIosIcon fontSize='12px' />
     </IconButton>
   );
 }
@@ -29,20 +29,20 @@ function ArrowPrev(props) {
   const { onClick } = props;
   return (
     <IconButton
-      size="small"
+      size='small'
       onClick={onClick}
       sx={{
         position: 'absolute',
         top: '50%',
-        left:{
+        left: {
           xs: '-25px',
           md: '-40px',
-          lg: '-50px'
+          lg: '-50px',
         },
-        transform: 'translateY(-50%)'
+        transform: 'translateY(-50%)',
       }}
     >
-      <ArrowBackIosNewIcon fontSize='12px'/>
+      <ArrowBackIosNewIcon fontSize='12px' />
     </IconButton>
   );
 }

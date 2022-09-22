@@ -52,7 +52,7 @@ function a11yProps(index) {
   };
 }
 
-const ProductDetailsTemplate = () => {
+const ProductDetailsTemplate = ({ product }) => {
   const [amount, setAmount] = useState(1);
   const [value, setValue] = React.useState(0);
   const router = useRouter();
@@ -61,12 +61,8 @@ const ProductDetailsTemplate = () => {
 
   const [showSrcImageIdx, setShowSrcImageIdx] = useState(0);
 
-  const images = [
-    'https://picsum.photos/600/600',
-    'https://picsum.photos/800/800',
-    'https://picsum.photos/700/700',
-  ];
-
+  const { id, name, mainImage, images, price, description } = product;
+  const thumbnails = [mainImage, ...images.map((img) => img.path)];
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -104,7 +100,6 @@ const ProductDetailsTemplate = () => {
     const itemsInCart = localStorage.getItem('items');
     if (itemsInCart) {
       const items = JSON.parse(itemsInCart);
-      console.log('items', items);
       if (items.find((it) => it.id === newItem.id)) {
         enqueueSnackbar('item exists', { variant: 'error' });
       } else {
@@ -126,7 +121,7 @@ const ProductDetailsTemplate = () => {
         <Grid item xs={12} md={6}>
           <Box sx={{ position: 'relative', aspectRatio: '1/1' }}>
             <Image
-              src={images[showSrcImageIdx]}
+              src={thumbnails[showSrcImageIdx]}
               layout='fill'
               alt='test'
               objectFit='contain'
@@ -134,7 +129,7 @@ const ProductDetailsTemplate = () => {
           </Box>
           <Box sx={{ mt: 2 }}>
             <Stack direction='row' justifyContent='center' spacing={2}>
-              {images.map((img, idx) => {
+              {thumbnails.map((img, idx) => {
                 return (
                   <Box
                     sx={{
@@ -183,19 +178,14 @@ const ProductDetailsTemplate = () => {
 
         <Grid item xs={12} md={6}>
           <Typography variant='h3' gutterBottom>
-            ANTONI FERNANDO DRIVER SHOES AF.4020 MEN SHOES
+            {name}
           </Typography>
           <Typography variant='subtitle1' gutterBottom>
             Status: In stock
           </Typography>
-          <Typography variant='h4'>1.000.000 &#8363;</Typography>
+          <Typography variant='h4'>{price} &#8363;</Typography>
           <Divider sx={{ margin: '30px 0' }} />
-          <Typography paragraph>
-            The design focuses on lightness and comfort, the youthful and
-            dynamic fashion design combined with the carefully selected
-            high-quality Italian cowhide material ensures to bring the user a
-            soft and smooth feeling. on every move
-          </Typography>
+          <Typography paragraph>{description}</Typography>
           <Divider sx={{ margin: '30px 0' }} />
           <Typography gutterBottom>Amount:</Typography>
           <Stack
