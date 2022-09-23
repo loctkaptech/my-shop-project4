@@ -23,17 +23,23 @@ function MyApp({ Component, pageProps }) {
     setColorPreference(currentMode);
   };
 
+  const getLayout = Component.getLayout || ((page) => page);
+
   useEffect(() => {
     const modeColor = getColorPreference();
     setMode(modeColor);
   }, []);
 
-  return (
+  return getLayout(
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <MainLayout toggleTheme={toggleTheme} mode={mode}>
+      {Component.getLayout ? (
         <Component {...pageProps} />
-      </MainLayout>
+      ) : (
+        <MainLayout toggleTheme={toggleTheme} mode={mode}>
+          <Component {...pageProps} />
+        </MainLayout>
+      )}
     </ThemeProvider>
   );
 }
