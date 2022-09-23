@@ -10,60 +10,72 @@ import {
   Radio,
   RadioGroup,
   Typography,
-} from '@mui/material';
-import { Stack } from '@mui/system';
-import ProductCard from 'components/ProductCard';
+} from "@mui/material";
+import { Stack } from "@mui/system";
+import ProductCard from "components/ProductCard";
 
-const ProductsTemplate = () => {
+const ProductsTemplate = ({ brands = [], categories = [] }) => {
   return (
     <Box>
       <Grid container spacing={2}>
         <Grid item xs={12} md={3}>
           <Box sx={{ mt: 3 }}>
-            <Typography variant='h5' gutterBottom>
+            <Typography variant="h5" gutterBottom>
               Categories
             </Typography>
             <FormGroup>
-              <FormControlLabel control={<Checkbox />} label="Men's shoes" />
-              <FormControlLabel control={<Checkbox />} label="Women's Shoes" />
-              <FormControlLabel control={<Checkbox />} label='Adidas shoes' />
-              <FormControlLabel control={<Checkbox />} label='NIKE Shoes' />
+              {categories.map((category, idx) => {
+                return (
+                  <FormControlLabel
+                    key={category.id}
+                    control={<Checkbox />}
+                    label={category.name}
+                  />
+                );
+              })}
             </FormGroup>
           </Box>
           <Box sx={{ mt: 3 }}>
-            <Typography variant='h5' gutterBottom>
+            <Typography variant="h5" gutterBottom>
               Trademark
             </Typography>
             <FormGroup>
-              <FormControlLabel control={<Checkbox />} label='adidas' />
-              <FormControlLabel control={<Checkbox />} label='Nike' />
+              {brands.map((brand, idx) => {
+                return (
+                  <FormControlLabel
+                    key={brand.id}
+                    control={<Checkbox />}
+                    label={brand.name}
+                  />
+                );
+              })}
             </FormGroup>
           </Box>
           <Box sx={{ mt: 3 }}>
-            <Typography variant='h5' gutterBottom>
+            <Typography variant="h5" gutterBottom>
               Price range
             </Typography>
             <FormControl>
               <RadioGroup>
                 <FormControlLabel
-                  value='0-500.000'
+                  value="0-500.000"
                   control={<Radio />}
-                  label='500.000 - 1.000.000'
+                  label="500.000 - 1.000.000"
                 />
                 <FormControlLabel
-                  value='500000-1000000'
+                  value="500000-1000000"
                   control={<Radio />}
-                  label='500.000 - 1.000.000'
+                  label="500.000 - 1.000.000"
                 />
                 <FormControlLabel
-                  value='1000000-1500000'
+                  value="1000000-1500000"
                   control={<Radio />}
-                  label='1.000.000 - 1.500.000'
+                  label="1.000.000 - 1.500.000"
                 />
                 <FormControlLabel
-                  value='1500000'
+                  value="1500000"
                   control={<Radio />}
-                  label='Above 1.500.000'
+                  label="Above 1.500.000"
                 />
               </RadioGroup>
             </FormControl>
@@ -72,31 +84,31 @@ const ProductsTemplate = () => {
 
         <Grid item xs={12} md={8}>
           <Box>
-            <Stack direction='row' spacing={8} alignItems='center'>
-              <Typography variant='h4'>All products</Typography>
+            <Stack direction="row" spacing={8} alignItems="center">
+              <Typography variant="h4">All products</Typography>
               <Box>
                 <FormControl>
-                  <FormLabel id='priority-view'>Priority viewing</FormLabel>
+                  <FormLabel id="priority-view">Priority viewing</FormLabel>
                   <RadioGroup row={true}>
                     <FormControlLabel
-                      value='new-products'
+                      value="new-products"
                       control={<Radio />}
-                      label='New products'
+                      label="New products"
                     />
                     <FormControlLabel
-                      value='oldest-products'
+                      value="oldest-products"
                       control={<Radio />}
-                      label='Oldest products'
+                      label="Oldest products"
                     />
                     <FormControlLabel
-                      value='price-up'
+                      value="price-up"
                       control={<Radio />}
-                      label='Prices go up'
+                      label="Prices go up"
                     />
                     <FormControlLabel
-                      value='price-down'
+                      value="price-down"
                       control={<Radio />}
-                      label='Prices go down'
+                      label="Prices go down"
                     />
                   </RadioGroup>
                 </FormControl>
@@ -106,7 +118,7 @@ const ProductsTemplate = () => {
           <Divider sx={{ my: 3 }} />
           <Box>
             <Grid container spacing={3}>
-              {[1, 2, 3, 4, 5, 6, 7 ,8].map((item) => (
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
                 <Grid item key={item} xs={12} md={6} lg={4}>
                   <ProductCard removeSpacing item={item} />
                 </Grid>
