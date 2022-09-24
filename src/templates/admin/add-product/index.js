@@ -121,8 +121,8 @@ const AddProductTemplate = () => {
       inStock,
       categoryId: Number(selectCategory),
       brandId: Number(selectBrand),
-      images: images.slice(1),
-      sizes: selectSizes,
+      imageList: images.slice(1),
+      sizeIds: selectSizes,
     };
     try {
       const res = await addProduct(newProduct);
