@@ -63,6 +63,7 @@ const ProductCard = ({ item, removeSpacing = false }) => {
             </Typography>
             <Typography
               sx={{
+                minHeight: '63px',
                 fontSize: 14,
                 display: '-webkit-box',
                 WebkitLineClamp: '3',
