@@ -13,6 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Stack } from '@mui/system';
+import { addOrder } from 'apis/fetchers/addOrder';
 import { getProductById } from 'apis/fetchers/getProductById';
 import RowItem from 'components/RowItem';
 import { useRouter } from 'next/router';
@@ -24,6 +25,13 @@ const CheckoutTemplate = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [items, setItems] = useState([]);
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [deliveryInstruction, setDeliveryInstruction] = useState();
+  const [paymentTypeId, setPaymentTypeId] = useState(1);
 
   const fetchItems = useCallback(async () => {
     try {
@@ -59,6 +67,43 @@ const CheckoutTemplate = () => {
     }
     return 0;
   };
+
+  const handleAddOrder = async () => {
+    if (firstName === '' || lastName === '' || phone === '' || address === '') {
+      enqueueSnackbar('Please fill in all fields', {
+        variant: 'error',
+      });
+      return;
+    }
+
+    const newOrder = {
+      firstName,
+      lastName,
+      phone,
+      address,
+      shipping: '',
+      productList: items.map((item) => ({
+        productId: item.id,
+        unitPrice: Number(item.price),
+        quantity: Number(item.amount),
+      })),
+      paymentTypeId,
+      deliveryInstruction,
+    };
+    try {
+      const res = await addOrder(newOrder);
+      if (res.data.status === 'ok') {
+        enqueueSnackbar(res.data.message, {
+          variant: 'success',
+        });
+      }
+    } catch (err) {
+      enqueueSnackbar(err.response.data.message, {
+        variant: 'error',
+      });
+    }
+  };
+
   useEffect(() => {
     fetchItems();
   }, [fetchItems]);
@@ -73,10 +118,30 @@ const CheckoutTemplate = () => {
           <Typography gutterBottom>
             Please fill in these fields below
           </Typography>
-          <TextField label='First name' fullWidth margin='normal' />
-          <TextField label='Last name' fullWidth margin='normal' />
-          <TextField label='Phone number' fullWidth margin='normal' />
           <TextField
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            label='First name'
+            fullWidth
+            margin='normal'
+          />
+          <TextField
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            label='Last name'
+            fullWidth
+            margin='normal'
+          />
+          <TextField
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            label='Phone number'
+            fullWidth
+            margin='normal'
+          />
+          <TextField
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             label='Address'
             fullWidth
             margin='normal'
@@ -88,21 +153,22 @@ const CheckoutTemplate = () => {
               <FormLabel id='payment-methods'>Payment methods</FormLabel>
               <RadioGroup
                 aria-labelledby='payment-methods'
-                defaultValue='female'
+                value={paymentTypeId}
+                onChange={(e) => setPaymentTypeId(Number(e.target.value))}
                 name='radio-buttons-group'
               >
                 <FormControlLabel
-                  value='check-money'
+                  value={1}
                   control={<Radio />}
                   label='Check / Money'
                 />
                 <FormControlLabel
-                  value='credit-card'
+                  value={2}
                   control={<Radio />}
                   label='Credit card'
                 />
                 <FormControlLabel
-                  value='paypal'
+                  value={3}
                   control={<Radio />}
                   label='PayPal'
                 />
@@ -158,6 +224,8 @@ const CheckoutTemplate = () => {
           </Box>
 
           <TextField
+            value={deliveryInstruction}
+            onChange={(e) => setDeliveryInstruction(e.target.value)}
             sx={{ mt: 4 }}
             label='Special delivery instruction'
             multiline
@@ -167,6 +235,7 @@ const CheckoutTemplate = () => {
 
           <Box sx={{ mt: 4 }}>
             <Button
+              onClick={handleAddOrder}
               fullWidth
               sx={{
                 backgroundImage: 'linear-gradient(to right, #8360c3, #2ebf91)',
