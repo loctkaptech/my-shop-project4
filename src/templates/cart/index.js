@@ -1,23 +1,108 @@
-import React from 'react';
 import {
   Box,
-  Typography,
+  Button,
+  IconButton,
   List,
   ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  Stack,
-  Button,
+  Typography,
 } from '@mui/material';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
-import ImageIcon from '@mui/icons-material/Image';
-import WorkIcon from '@mui/icons-material/Work';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
-import Image from 'next/image';
+import { getProductById } from 'apis/fetchers/getProductById';
+import { useSnackbar } from 'notistack';
+
+import RowItem from 'components/RowItem';
+import { useRouter } from 'next/router';
+import { Delete } from '@mui/icons-material';
+import { LayoutContext } from 'layouts/MainLayout';
+
 const CartTemplate = () => {
+  const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
+  const cartContext = useContext(LayoutContext);
+
+  const [itemsStorage, setItemsStorage] = useState([]);
+  const [items, setItems] = useState([]);
+
+  const fetchItemsInCart = useCallback(
+    async (ids, itemsStorage) => {
+      try {
+        const productsPromises = ids.map((id) => getProductById(id));
+        const resultRes = await Promise.all(productsPromises);
+        const getAmount = (compareItem) =>
+          itemsStorage.find((item) => compareItem.id === item.id)?.amount;
+        setItems(
+          resultRes.map((result) => ({
+            ...result.data.data,
+            amount: getAmount(result.data.data),
+          }))
+        );
+      } catch (error) {
+        enqueueSnackbar('An error occurred!');
+      }
+    },
+    [enqueueSnackbar]
+  );
+
+  const handleClickCheckOut = () => {
+    const queryStr = items
+      .map(
+        (prd, idx) =>
+          `${prd.id}=${prd.amount}${idx === items.length - 1 ? '' : '&'}`
+      )
+      .join('');
+    router.push(`/checkout?${queryStr}`);
+  };
+
+  const handleDeleteCartItem = (id) => {
+    // remove in context
+    const cloneCartItems = [...cartContext.itemsInCart];
+    cloneCartItems.splice(
+      cloneCartItems.findIndex((item) => Number(item.id) === Number(id)),
+      1
+    );
+    cartContext.setItemsInCart(cloneCartItems);
+
+    // remove in localStorage
+    const itemsStorage = localStorage.getItem('items');
+    const parsedItems = JSON.parse(itemsStorage);
+    const idxToRemove = parsedItems.findIndex(
+      (item) => Number(item.id) === Number(id)
+    );
+    parsedItems.splice(idxToRemove, 1);
+    localStorage.setItem('items', JSON.stringify(parsedItems));
+
+    // remove display item from state
+    const cloneItemData = [...items];
+    cloneItemData.splice(
+      cloneItemData.findIndex((item) => Number(item.id) === Number(id)),
+      1
+    );
+    setItems(cloneItemData);
+  };
+
+  useEffect(() => {
+    const itemsStorage = localStorage.getItem('items');
+    if (itemsStorage) {
+      const parseItems = JSON.parse(itemsStorage);
+
+      const ids = parseItems.map((item) => item.id);
+      setItemsStorage(parseItems);
+
+      fetchItemsInCart(ids, parseItems);
+    }
+  }, [fetchItemsInCart]);
+
+  if (items.length === 0) {
+    return (
+      <Typography align='center' variant='h4'>
+        No items in cart
+      </Typography>
+    );
+  }
+
   return (
-    <Box>
+    <Box sx={{ mb: 5 }}>
       <Typography align='center' variant='h4'>
         Your shopping cart
       </Typography>
@@ -30,42 +115,29 @@ const CartTemplate = () => {
         }}
       >
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-          {[1, 2, 3, 4].map((item) => (
-            <ListItem key={item} divider>
-              <Box sx={{ mb: 2, mt: 3 }}>
-                <Stack direction='row' spacing={2} alignItems='center'>
-                  <Box
-                    width={150}
-                    height={150}
-                    sx={{
-                      aspectRatio: '1/1',
-                    }}
-                  >
-                    <Image
-                      style={{ borderRadius: '4px' }}
-                      width={150}
-                      height={150}
-                      src='https://picsum.photos/200/200'
-                      layout='responsive'
-                      alt='random'
-                    />
-                  </Box>
-                  <Box>
-                    <Typography variant='h5' gutterBottom>
-                      ANTONI FERNANDO DRIVER SHOES AF.4020 MEN SHOES
-                    </Typography>
-                    <Typography gutterBottom>Description</Typography>
-                    <Typography gutterBottom variant='h6'>
-                      1.000.000
-                    </Typography>
-                  </Box>
-                </Stack>
+          {items.map((item) => (
+            <ListItem
+              secondaryAction={
+                <IconButton
+                  onClick={() => handleDeleteCartItem(item.id)}
+                  edge='end'
+                  aria-label='delete'
+                >
+                  <Delete />
+                </IconButton>
+              }
+              key={item.id}
+              divider
+            >
+              <Box sx={{ mb: 2, mt: 3, width: '100%' }}>
+                <RowItem item={item} />
               </Box>
             </ListItem>
           ))}
         </List>
         <Box sx={{ mt: 4 }}>
           <Button
+            onClick={handleClickCheckOut}
             fullWidth
             sx={{
               backgroundImage: 'linear-gradient(to right, #8360c3, #2ebf91)',
