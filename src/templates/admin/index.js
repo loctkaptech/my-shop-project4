@@ -26,6 +26,11 @@ const AdminTemplate = () => {
               Add product
             </Link>
           </Button>
+          <Button size='large'>
+            <Link style={{ color: 'inherit' }} href='/admin/add-category'>
+              Add Category
+            </Link>
+          </Button>
         </Box>
       </Box>
     </Box>
