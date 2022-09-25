@@ -62,6 +62,7 @@ const ProductDetailsTemplate = ({ product }) => {
   const [showSrcImageIdx, setShowSrcImageIdx] = useState(0);
 
   const { id, name, mainImage, images, price, description } = product;
+
   const thumbnails = [mainImage, ...images.map((img) => img.path)];
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -78,17 +79,7 @@ const ProductDetailsTemplate = ({ product }) => {
   };
 
   const handleClickPlaceOrder = () => {
-    const products = [
-      { id: 'asd1', amount: 3 },
-      { id: 'ads2', amount: 1 },
-    ];
-    const queryStr = products
-      .map(
-        (prd, idx) =>
-          `${prd.id}=${prd.amount}${idx === products.length - 1 ? '' : '&'}`
-      )
-      .join('');
-    router.push(`/checkout?${queryStr}`);
+    router.push(`/checkout?${id}=${amount}`);
   };
 
   const handleClickThumbnailImg = (idx) => {
@@ -96,7 +87,7 @@ const ProductDetailsTemplate = ({ product }) => {
   };
 
   const handleAddToCart = () => {
-    const newItem = { id: 'item id 123', amount: 2 };
+    const newItem = { id, amount };
     const itemsInCart = localStorage.getItem('items');
     if (itemsInCart) {
       const items = JSON.parse(itemsInCart);

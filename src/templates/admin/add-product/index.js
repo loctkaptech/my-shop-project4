@@ -91,7 +91,7 @@ const AddProductTemplate = () => {
       (error, result) => {
         if (!error && result && result.event === 'success') {
           console.log('Done! Here is the image info: ', result.info);
-          setImages([...images, result.info.url]);
+          setImages((preImages) => [...preImages, result.info.url]);
         }
       }
     );

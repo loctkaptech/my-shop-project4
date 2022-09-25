@@ -1,35 +1,32 @@
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {
   AppBar,
   Avatar,
   Badge,
   Box,
+  Grid,
   IconButton,
   Menu,
   MenuItem,
   Toolbar,
   Tooltip,
   Typography,
-  Grid
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
 
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import CopyrightIcon from "@mui/icons-material/Copyright";
-import MenuIcon from "@mui/icons-material/Menu";
-import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import { Container } from "@mui/system";
-import { useRouter } from "next/router";
-import { SnackbarProvider } from "notistack";
+import MenuIcon from '@mui/icons-material/Menu';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import { Container } from '@mui/system';
+import { useRouter } from 'next/router';
+import { SnackbarProvider } from 'notistack';
 
-import Link from 'components/Link';
 import { Stack } from '@mui/system';
-import { FacebookOutlined } from '@mui/icons-material';
+import Link from 'components/Link';
 
 export const LayoutContext = React.createContext(null);
 
@@ -41,27 +38,27 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
 
   const pages = [
     {
-      name: "Home",
-      href: "/",
+      name: 'Home',
+      href: '/',
     },
     {
-      name: "Products",
-      href: "/products",
+      name: 'Products',
+      href: '/products',
     },
     {
-      name: "About",
-      href: "/about",
+      name: 'About',
+      href: '/about',
     },
     {
-      name: "Login",
-      href: "/login",
+      name: 'Login',
+      href: '/login',
     },
     {
-      name: "Signup",
-      href: "/signup",
+      name: 'Signup',
+      href: '/signup',
     },
   ];
-  const settings = ["Profile"];
+  const settings = ['Profile'];
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -78,7 +75,7 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
   };
 
   useEffect(() => {
-    const itemsInCart = localStorage.getItem("items");
+    const itemsInCart = localStorage.getItem('items');
     if (itemsInCart) {
       setItemsInCart(JSON.parse(itemsInCart));
     }
@@ -86,59 +83,59 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
   return (
     <SnackbarProvider maxSnack={3}>
       <Box
-        sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+        sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
       >
-        <AppBar position="static">
-          <Container maxWidth="xl">
+        <AppBar position='static'>
+          <Container maxWidth='xl'>
             <Toolbar disableGutters>
               <ShoppingBagIcon
-                sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+                sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
               />
               <Typography
-                variant="h6"
+                variant='h6'
                 noWrap
                 component={Link}
-                href="/"
+                href='/'
                 sx={{
                   mr: 2,
-                  display: { xs: "none", md: "flex" },
-                  fontFamily: "monospace",
+                  display: { xs: 'none', md: 'flex' },
+                  fontFamily: 'monospace',
                   fontWeight: 700,
-                  letterSpacing: ".3rem",
-                  color: "inherit",
-                  textDecoration: "none",
+                  letterSpacing: '.3rem',
+                  color: 'inherit',
+                  textDecoration: 'none',
                 }}
               >
                 MyShop
               </Typography>
 
-              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
+                  size='large'
+                  aria-label='account of current user'
+                  aria-controls='menu-appbar'
+                  aria-haspopup='true'
                   onClick={handleOpenNavMenu}
-                  color="inherit"
+                  color='inherit'
                 >
                   <MenuIcon />
                 </IconButton>
                 <Menu
-                  id="menu-appbar"
+                  id='menu-appbar'
                   anchorEl={anchorElNav}
                   anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
+                    vertical: 'bottom',
+                    horizontal: 'left',
                   }}
                   keepMounted
                   transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
+                    vertical: 'top',
+                    horizontal: 'left',
                   }}
                   open={Boolean(anchorElNav)}
                   onClose={handleCloseNavMenu}
                   sx={{
-                    display: { xs: "block", md: "none" },
+                    display: { xs: 'block', md: 'none' },
                   }}
                 >
                   {pages.map((page) => (
@@ -149,27 +146,27 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
                 </Menu>
               </Box>
               <ShoppingBagIcon
-                sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+                sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}
               />
               <Typography
-                variant="h5"
+                variant='h5'
                 noWrap
                 component={Link}
-                href="/"
+                href='/'
                 sx={{
                   mr: 2,
-                  display: { xs: "flex", md: "none" },
+                  display: { xs: 'flex', md: 'none' },
                   flexGrow: 1,
-                  fontFamily: "monospace",
+                  fontFamily: 'monospace',
                   fontWeight: 700,
-                  letterSpacing: ".3rem",
-                  color: "inherit",
-                  textDecoration: "none",
+                  letterSpacing: '.3rem',
+                  color: 'inherit',
+                  textDecoration: 'none',
                 }}
               >
                 MyShop
               </Typography>
-              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {pages.map((page) => (
                   <Box sx={{ mr: 3 }} key={page.name}>
                     <Link href={page.href}>{page.name}</Link>
@@ -178,51 +175,51 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
               </Box>
               <IconButton
                 sx={{ mx: 1 }}
-                title={mode === "dark" ? "Turn on light" : "Turn on dark"}
+                title={mode === 'dark' ? 'Turn on light' : 'Turn on dark'}
                 onClick={toggleTheme}
               >
-                {mode === "dark" ? (
-                  <LightModeIcon color="action" />
+                {mode === 'dark' ? (
+                  <LightModeIcon color='action' />
                 ) : (
-                  <DarkModeIcon color="action" />
+                  <DarkModeIcon color='action' />
                 )}
               </IconButton>
 
               <IconButton
-                onClick={() => router.push("/cart")}
+                onClick={() => router.push('/cart')}
                 sx={{ mx: 1 }}
-                title="View your cart"
+                title='View your cart'
               >
-                <Badge badgeContent={itemsInCart.length} color="secondary">
-                  <ShoppingCartIcon color="action" />
+                <Badge badgeContent={itemsInCart.length} color='secondary'>
+                  <ShoppingCartIcon color='action' />
                 </Badge>
               </IconButton>
 
               <Box sx={{ flexGrow: 0, ml: 1 }}>
-                <Tooltip title="Open settings">
+                <Tooltip title='Open settings'>
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="User Name" />
+                    <Avatar alt='User Name' />
                   </IconButton>
                 </Tooltip>
                 <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
+                  sx={{ mt: '45px' }}
+                  id='menu-appbar'
                   anchorEl={anchorElUser}
                   anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   keepMounted
                   transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
                     <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
+                      <Typography textAlign='center'>{setting}</Typography>
                     </MenuItem>
                   ))}
                 </Menu>
@@ -230,7 +227,7 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
             </Toolbar>
           </Container>
         </AppBar>
-        <LayoutContext.Provider value={{ setItemsInCart }}>
+        <LayoutContext.Provider value={{ itemsInCart, setItemsInCart }}>
           <Box
             sx={{
               flexGrow: 1,
@@ -248,10 +245,10 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
                 xl: 0,
               },
               width: {
-                xl: "1440px",
+                xl: '1440px',
               },
               mx: {
-                xl: "auto",
+                xl: 'auto',
               },
             }}
           >
@@ -264,15 +261,15 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
             <Box
               px={{ xs: 3, sm: 10 }}
               py={{ xs: 5, sm: 10 }}
-              bgcolor="text.secondary"
-              color="white"
+              bgcolor='text.secondary'
+              color='white'
             >
-              <Container maxWidth="lg">
+              <Container maxWidth='lg'>
                 <Grid container spacing={5}>
                   <Grid item xs={12} sm={4}>
                     <Box borderBottom={1}>
                       <Box
-                        component="h2"
+                        component='h2'
                         sx={{
                           m: 0,
                         }}
@@ -281,17 +278,17 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
                       </Box>
                     </Box>
                     <Box mt={1}>
-                      <Link href="/" color="inherit">
+                      <Link href='/' color='inherit'>
                         Products
                       </Link>
                     </Box>
                     <Box mt={1}>
-                      <Link href="/" color="inherit">
+                      <Link href='/' color='inherit'>
                         Login
                       </Link>
                     </Box>
                     <Box mt={1}>
-                      <Link href="/" color="inherit">
+                      <Link href='/' color='inherit'>
                         Signup
                       </Link>
                     </Box>
@@ -299,7 +296,7 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
                   <Grid item xs={12} sm={4}>
                     <Box borderBottom={1}>
                       <Box
-                        component="h2"
+                        component='h2'
                         sx={{
                           m: 0,
                         }}
@@ -308,17 +305,17 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
                       </Box>
                     </Box>
                     <Box mt={1}>
-                      <Link href="/" color="inherit">
+                      <Link href='/' color='inherit'>
                         Products
                       </Link>
                     </Box>
                     <Box mt={1}>
-                      <Link href="/" color="inherit">
+                      <Link href='/' color='inherit'>
                         About Us
                       </Link>
                     </Box>
                     <Box mt={1}>
-                      <Link href="/" color="inherit">
+                      <Link href='/' color='inherit'>
                         Product Details
                       </Link>
                     </Box>
@@ -326,7 +323,7 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
                   <Grid item xs={12} sm={4}>
                     <Box borderBottom={1}>
                       <Box
-                        component="h2"
+                        component='h2'
                         sx={{
                           m: 0,
                         }}
@@ -335,27 +332,27 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
                       </Box>
                     </Box>
 
-                    <Stack direction="row" spacing={1} mt={1}>
+                    <Stack direction='row' spacing={1} mt={1}>
                       <Box>
-                        <Typography color="inherit">Facebook</Typography>
+                        <Typography color='inherit'>Facebook</Typography>
                       </Box>
-                      <FacebookOutlinedIcon color="inherit">
+                      <FacebookOutlinedIcon color='inherit'>
                         Facebook
                       </FacebookOutlinedIcon>
                     </Stack>
-                    <Stack direction="row" spacing={1} mt={1}>
+                    <Stack direction='row' spacing={1} mt={1}>
                       <Box>
-                        <Typography color="inherit">Instagram</Typography>
+                        <Typography color='inherit'>Instagram</Typography>
                       </Box>
-                      <InstagramIcon color="inherit">Instagram</InstagramIcon>
+                      <InstagramIcon color='inherit'>Instagram</InstagramIcon>
                     </Stack>
 
-                    <Stack direction="row" spacing={1} mt={1}>
+                    <Stack direction='row' spacing={1} mt={1}>
                       <Box>
-                        <Typography color="inherit">LinkedinIn</Typography>
+                        <Typography color='inherit'>LinkedinIn</Typography>
                       </Box>
 
-                      <LinkedInIcon color="inherit">LinkedInIcon</LinkedInIcon>
+                      <LinkedInIcon color='inherit'>LinkedInIcon</LinkedInIcon>
                     </Stack>
                   </Grid>
                 </Grid>

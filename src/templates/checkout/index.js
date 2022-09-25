@@ -5,21 +5,66 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  List,
+  ListItem,
   Radio,
   RadioGroup,
   TextField,
   Typography,
 } from '@mui/material';
 import { Stack } from '@mui/system';
-import Image from 'next/image';
+import { getProductById } from 'apis/fetchers/getProductById';
+import RowItem from 'components/RowItem';
 import { useRouter } from 'next/router';
-import React from 'react';
+import { useSnackbar } from 'notistack';
+import { useCallback, useEffect, useState } from 'react';
 
 const CheckoutTemplate = () => {
   const router = useRouter();
-  console.log(router);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [items, setItems] = useState([]);
+
+  const fetchItems = useCallback(async () => {
+    try {
+      const itemsObj = router.query;
+      const productsPromises = Object.keys(itemsObj).map((id) =>
+        getProductById(id)
+      );
+
+      const resultRes = await Promise.all(productsPromises);
+
+      const getAmount = (compareItem) => {
+        return itemsObj[compareItem.id];
+      };
+      setItems(
+        resultRes.map((result) => ({
+          ...result.data.data,
+          amount: getAmount(result.data.data),
+        }))
+      );
+    } catch (error) {
+      enqueueSnackbar('An error occurred!', { variant: 'error' });
+    }
+  }, [enqueueSnackbar, router.query]);
+
+  const calculatePrice = () => {
+    if (items.length > 0) {
+      return items
+        .reduce((curr, acc) => {
+          return Number(acc.price) * Number(acc.amount) + curr;
+        }, 0)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    return 0;
+  };
+  useEffect(() => {
+    fetchItems();
+  }, [fetchItems]);
+
   return (
-    <Box>
+    <Box sx={{ mb: 5 }}>
       <Typography variant='h3' align='center' gutterBottom>
         Check out
       </Typography>
@@ -69,58 +114,15 @@ const CheckoutTemplate = () => {
         <Grid item xs={12} md={6}>
           <Typography gutterBottom>Order Summary</Typography>
 
-          <Box sx={{ mb: 2, mt: 3 }}>
-            <Stack direction='row' spacing={2} alignItems='center'>
-              <Box
-                width={150}
-                height={150}
-                sx={{
-                  aspectRatio: '1/1',
-                }}
-              >
-                <Image
-                  style={{ borderRadius: '4px' }}
-                  width={150}
-                  height={150}
-                  src='https://picsum.photos/200/200'
-                  layout='responsive'
-                  alt='random'
-                />
-              </Box>
-              <Box>
-                <Typography variant='h5' gutterBottom>
-                  ANTONI FERNANDO DRIVER SHOES AF.4020 MEN SHOES
-                </Typography>
-                <Typography gutterBottom>Description</Typography>
-                <Typography gutterBottom variant='h6'>
-                  1.000.000
-                </Typography>
-              </Box>
-            </Stack>
-          </Box>
-          <Box sx={{ mb: 2 }}>
-            <Stack direction='row' spacing={2} alignItems='center'>
-              <Box width={150} height={150} sx={{ aspectRatio: '1/1' }}>
-                <Image
-                  style={{ borderRadius: '4px' }}
-                  width={150}
-                  height={150}
-                  src='https://picsum.photos/200/200'
-                  layout='responsive'
-                  alt='random'
-                />
-              </Box>
-              <Box>
-                <Typography variant='h5' gutterBottom>
-                  ANTONI FERNANDO DRIVER SHOES AF.4020 MEN SHOES
-                </Typography>
-                <Typography gutterBottom>Description</Typography>
-                <Typography gutterBottom variant='h6'>
-                  1.000.000
-                </Typography>
-              </Box>
-            </Stack>
-          </Box>
+          <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+            {items.map((item, idx) => (
+              <ListItem key={item.id} divider>
+                <Box sx={{ mb: 2, mt: idx === 0 ? 0 : 3 }}>
+                  <RowItem item={item} />
+                </Box>
+              </ListItem>
+            ))}
+          </List>
 
           <Box
             sx={{
@@ -141,7 +143,7 @@ const CheckoutTemplate = () => {
                 gutterBottom
                 sx={{ flex: 'auto', width: '50%', textAlign: 'right' }}
               >
-                10000000
+                {calculatePrice()} &#8363;
               </Typography>
               <Typography gutterBottom sx={{ flex: 'auto', width: '50%' }}>
                 Shipping
