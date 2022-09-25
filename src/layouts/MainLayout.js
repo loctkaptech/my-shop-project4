@@ -46,8 +46,8 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
       href: '/products',
     },
     {
-      name: 'About',
-      href: '/about',
+      name: "Contact Us",
+      href: "/contactus",
     },
     {
       name: 'Login',
@@ -261,8 +261,9 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
             <Box
               px={{ xs: 3, sm: 10 }}
               py={{ xs: 5, sm: 10 }}
-              bgcolor='text.secondary'
-              color='white'
+              bgcolor={mode === "light" ? "text.secondary" : "primary"}
+              color="while"
+
             >
               <Container maxWidth='lg'>
                 <Grid container spacing={5}>
@@ -278,17 +279,17 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
                       </Box>
                     </Box>
                     <Box mt={1}>
-                      <Link href='/' color='inherit'>
+                      <Link href="/products" color="inherit">
                         Products
                       </Link>
                     </Box>
                     <Box mt={1}>
-                      <Link href='/' color='inherit'>
+                      <Link href="/login" color="inherit">
                         Login
                       </Link>
                     </Box>
                     <Box mt={1}>
-                      <Link href='/' color='inherit'>
+                      <Link href="/signup" color="inherit">
                         Signup
                       </Link>
                     </Box>
@@ -305,17 +306,17 @@ const MainLayout = ({ children, toggleTheme, mode }) => {
                       </Box>
                     </Box>
                     <Box mt={1}>
-                      <Link href='/' color='inherit'>
+                      <Link href="/products" color="inherit">
                         Products
                       </Link>
                     </Box>
                     <Box mt={1}>
-                      <Link href='/' color='inherit'>
-                        About Us
+                      <Link href="/contactus" color="inherit">
+                        Contact Us
                       </Link>
                     </Box>
                     <Box mt={1}>
-                      <Link href='/' color='inherit'>
+                      <Link href="/products" color="inherit">
                         Product Details
                       </Link>
                     </Box>

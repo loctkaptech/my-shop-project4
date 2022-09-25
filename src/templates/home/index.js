@@ -1,5 +1,7 @@
 import { Box, Grid } from '@mui/material';
-import BgImage from 'assets/images/1059-1440x600.jpg';
+import BgImage from 'assets/images/image1.jpg';
+import BgImage2 from 'assets/images/image2.jpg';
+import BgImage3 from 'assets/images/image3.jpg';
 import CategoryCard from 'components/CategoryCard';
 import PageSectionContent from 'components/PageSectionContent';
 import PageSectionTitle from 'components/PageSectionTitle';
@@ -16,14 +18,14 @@ const HomeTemplate = ({ latestProducts = [], categories = [] }) => {
       <Box sx={{ mt: 4 }}>
         <PageSectionContent>
           <SliderReactSlick isSingle>
-            {[1, 2, 3, 4, 5, 6].map((item) => (
+            {[BgImage, BgImage2, BgImage3].map((item) => (
               <Box
                 key={item}
                 sx={{ aspectRatio: { xs: '1/1', sm: '4 / 3', md: '16 / 5' } }}
               >
                 <Image
                   style={{ borderRadius: '7px' }}
-                  src={BgImage}
+                  src={item}
                   layout='responsive'
                   alt='random image'
                 />

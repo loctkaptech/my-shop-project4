@@ -6,7 +6,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 
-const AboutTemplate = () => {
+const ContactTemplate = () => {
   return (
     <div>
        <Grid>
@@ -47,4 +47,4 @@ const AboutTemplate = () => {
   );
 };
 
-export default AboutTemplate;
+export default ContactTemplate;

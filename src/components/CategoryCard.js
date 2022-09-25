@@ -1,8 +1,6 @@
 import { Box, CardActionArea, Typography } from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
-import CategoryImage1 from 'assets/images/180-720x400.jpg';
-
 const CategoryCard = ({ category }) => {
   const { id, name, thumbnail } = category;
 
