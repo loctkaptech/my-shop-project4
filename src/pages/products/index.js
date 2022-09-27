@@ -1,28 +1,11 @@
-import React from "react";
-import ProductsTemplate from "templates/products";
-import { getCategories } from "apis/fetchers/getCategories";
-import { getBrands } from "apis/fetchers/getBrands"
+import ProductsTemplate from 'templates/products';
 
-const Products = ({ brands, categories }) => {
+const Products = () => {
   return (
     <div>
-      <ProductsTemplate brands={brands} categories={categories} />
+      <ProductsTemplate />
     </div>
   );
 };
 
 export default Products;
-
-export async function getServerSideProps() {
-  const [brandsRes, categoriesRes] = await Promise.all([
-    getBrands(),
-    getCategories()
-  ]);
-
-  return {
-    props: {
-      brands: brandsRes.data.data,
-      categories: categoriesRes.data.data,
-    }
-  };
-}
