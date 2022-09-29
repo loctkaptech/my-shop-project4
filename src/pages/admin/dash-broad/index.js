@@ -1,8 +1,9 @@
 import React from 'react';
 import AdminLayout from 'layouts/AdminLayout';
+import DashBroadTemplate from 'templates/admin/dash-broad';
 
 const DashBroad = () => {
-  return <div>DashBroad</div>;
+  return <DashBroadTemplate />;
 };
 
 DashBroad.getLayout = function getLayout(page) {
