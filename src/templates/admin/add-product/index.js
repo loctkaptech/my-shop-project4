@@ -19,6 +19,7 @@ import { getBrands } from 'apis/fetchers/getBrands';
 import { getCategories } from 'apis/fetchers/getCategories';
 import { getSizes } from 'apis/fetchers/getSizes';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
@@ -46,6 +47,7 @@ function getStyles(name, sizeName, theme) {
 const AddProductTemplate = () => {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
 
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -130,6 +132,7 @@ const AddProductTemplate = () => {
         enqueueSnackbar(res.data.message, {
           variant: 'success',
         });
+        router.push('/admin/dash-broad');
       }
     } catch (err) {
       enqueueSnackbar(err.response.data.message, {
