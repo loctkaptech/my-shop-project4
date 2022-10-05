@@ -11,35 +11,35 @@ import {
   Radio,
   RadioGroup,
   Typography,
-} from '@mui/material';
-import { Stack } from '@mui/system';
-import { getBrands } from 'apis/fetchers/getBrands';
-import { getCategories } from 'apis/fetchers/getCategories';
-import { getFilterProducts } from 'apis/fetchers/getFilterProducts';
-import ProductCard from 'components/ProductCard';
-import { useCallback, useEffect, useState } from 'react';
+} from "@mui/material";
+import { Stack } from "@mui/system";
+import { getBrands } from "apis/fetchers/getBrands";
+import { getCategories } from "apis/fetchers/getCategories";
+import { getFilterProducts } from "apis/fetchers/getFilterProducts";
+import ProductCard from "components/ProductCard";
+import { useCallback, useEffect, useState } from "react";
 
 const ProductsTemplate = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedBrand, setSelectedBrand] = useState('');
-  const [selectedRange, setSelectedRange] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [selectedRange, setSelectedRange] = useState("");
 
   const handleFetchCategories = async () => {
     try {
       setLoading(true);
       const categoriesRes = await getCategories();
-      setError('');
+      setError("");
       setLoading(false);
       setCategories(categoriesRes.data.data);
     } catch (error) {
-      setError('Something went wrong!');
+      setError("Something went wrong!");
     } finally {
       setLoading(false);
     }
@@ -49,11 +49,11 @@ const ProductsTemplate = () => {
     try {
       setLoading(true);
       const brandsRes = await getBrands();
-      setError('');
+      setError("");
       setLoading(false);
       setBrands(brandsRes.data.data);
     } catch (error) {
-      setError('Something went wrong!');
+      setError("Something went wrong!");
     } finally {
       setLoading(false);
     }
@@ -66,14 +66,14 @@ const ProductsTemplate = () => {
         brandId: selectedBrand || undefined,
         priceRange: selectedRange || undefined,
       });
-      setError('');
+      setError("");
       setLoading(false);
       setProducts(productsRes.data.data);
     } catch (error) {
-      if (error.response.data.message === 'No products found') {
+      if (error.response.data.message === "No products found") {
         setError(error.response.data.message);
       } else {
-        setError('Something went wrong!');
+        setError("Something went wrong!");
       }
     } finally {
       setLoading(false);
@@ -81,9 +81,9 @@ const ProductsTemplate = () => {
   }, [selectedBrand, selectedCategory, selectedRange]);
 
   const handleClearFilter = () => {
-    setSelectedBrand('');
-    setSelectedRange('');
-    setSelectedCategory('');
+    setSelectedBrand("");
+    setSelectedRange("");
+    setSelectedCategory("");
   };
 
   useEffect(() => {
@@ -97,9 +97,9 @@ const ProductsTemplate = () => {
 
   return (
     <Box>
-      <Box sx={{ height: '32px' }}>
+      <Box sx={{ height: "32px" }}>
         {(selectedBrand || selectedCategory || selectedRange) && (
-          <Button onClick={handleClearFilter} size='small' variant='contained'>
+          <Button onClick={handleClearFilter} size="small" variant="contained">
             Clear filter
           </Button>
         )}
@@ -107,7 +107,7 @@ const ProductsTemplate = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} md={3}>
           <Box sx={{ mt: 3 }}>
-            <Typography variant='h5' gutterBottom>
+            <Typography variant="h5" gutterBottom>
               Categories
             </Typography>
             {/* <FormGroup>
@@ -123,10 +123,10 @@ const ProductsTemplate = () => {
             </FormGroup> */}
             <FormControl>
               <RadioGroup
-                aria-labelledby='demo-radio-buttons-group-label'
+                aria-labelledby="demo-radio-buttons-group-label"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                name='radio-buttons-group'
+                name="radio-buttons-group"
               >
                 {categories.map((cate) => (
                   <FormControlLabel
@@ -140,7 +140,7 @@ const ProductsTemplate = () => {
             </FormControl>
           </Box>
           <Box sx={{ mt: 3 }}>
-            <Typography variant='h5' gutterBottom>
+            <Typography variant="h5" gutterBottom>
               Trademark
             </Typography>
             {/* <FormGroup>
@@ -158,10 +158,10 @@ const ProductsTemplate = () => {
 
             <FormControl>
               <RadioGroup
-                aria-labelledby='demo-radio-buttons-group-label'
+                aria-labelledby="demo-radio-buttons-group-label"
                 value={selectedBrand}
                 onChange={(e) => setSelectedBrand(e.target.value)}
-                name='radio-buttons-group'
+                name="radio-buttons-group"
               >
                 {brands.map((brand) => (
                   <FormControlLabel
@@ -175,7 +175,7 @@ const ProductsTemplate = () => {
             </FormControl>
           </Box>
           <Box sx={{ mt: 3 }}>
-            <Typography variant='h5' gutterBottom>
+            <Typography variant="h5" gutterBottom>
               Price range
             </Typography>
             <FormControl>
@@ -184,24 +184,24 @@ const ProductsTemplate = () => {
                 onChange={(e) => setSelectedRange(e.target.value)}
               >
                 <FormControlLabel
-                  value='0-500000'
+                  value="0-500000"
                   control={<Radio />}
-                  label='0 - 500.000'
+                  label="0 - 500.000"
                 />
                 <FormControlLabel
-                  value='500000-1000000'
+                  value="500000-1000000"
                   control={<Radio />}
-                  label='500.000 - 1.000.000'
+                  label="500.000 - 1.000.000"
                 />
                 <FormControlLabel
-                  value='1000000-1500000'
+                  value="1000000-1500000"
                   control={<Radio />}
-                  label='1.000.000 - 1.500.000'
+                  label="1.000.000 - 1.500.000"
                 />
                 <FormControlLabel
-                  value='1500000'
+                  value="1500000-1"
                   control={<Radio />}
-                  label='Above 1.500.000'
+                  label="Above 1.500.000"
                 />
               </RadioGroup>
             </FormControl>
@@ -210,31 +210,31 @@ const ProductsTemplate = () => {
 
         <Grid item xs={12} md={8}>
           <Box>
-            <Stack direction='row' spacing={8} alignItems='center'>
-              <Typography variant='h4'>All products</Typography>
+            <Stack direction="row" spacing={8} alignItems="center">
+              <Typography variant="h4">All products</Typography>
               <Box>
                 <FormControl>
-                  <FormLabel id='priority-view'>Priority viewing</FormLabel>
+                  <FormLabel id="priority-view">Priority viewing</FormLabel>
                   <RadioGroup row={true}>
                     <FormControlLabel
-                      value='new-products'
+                      value="new-products"
                       control={<Radio />}
-                      label='New products'
+                      label="New products"
                     />
                     <FormControlLabel
-                      value='oldest-products'
+                      value="oldest-products"
                       control={<Radio />}
-                      label='Oldest products'
+                      label="Oldest products"
                     />
                     <FormControlLabel
-                      value='price-up'
+                      value="price-up"
                       control={<Radio />}
-                      label='Prices go up'
+                      label="Prices go up"
                     />
                     <FormControlLabel
-                      value='price-down'
+                      value="price-down"
                       control={<Radio />}
-                      label='Prices go down'
+                      label="Prices go down"
                     />
                   </RadioGroup>
                 </FormControl>
@@ -246,7 +246,7 @@ const ProductsTemplate = () => {
             {loading ? (
               <CircularProgress />
             ) : error ? (
-              <Alert severity='error'>{error}</Alert>
+              <Alert severity="error">{error}</Alert>
             ) : (
               <Grid container spacing={3}>
                 {products.map((item) => (
